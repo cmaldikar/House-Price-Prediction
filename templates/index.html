@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+            background: url('{{ url_for('static', filename='NYC.png') }}') no-repeat center center fixed;
+            background-size: cover;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">House Price Prediction</h1>
+        <form action="/predict" method="POST">
+            <div class="form-group">
+                <label for="bed">Bedrooms:</label>
+                <input type="number" class="form-control" id="bed" name="bed" required>
+            </div>
+            <div class="form-group">
+                <label for="bath">Bathrooms:</label>
+                <input type="number" class="form-control" id="bath" name="bath" required>
+            </div>
+            <div class="form-group">
+                <label for="acre_lot">Acre Lot:</label>
+                <input type="number" step="0.01" class="form-control" id="acre_lot" name="acre_lot" required>
+            </div>
+            <div class="form-group">
+                <label for="house_size">House Size (sq ft):</label>
+                <input type="number" class="form-control" id="house_size" name="house_size" required>
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <select class="form-control" id="city" name="city">
+                    {% for city in cities %}
+                        <option value="{{ city }}">{{ city }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="state">State:</label>
+                <select class="form-control" id="state" name="state">
+                    {% for state in states %}
+                        <option value="{{ state }}">{{ state }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+        <br>
+        {% if prediction_text %}
+            <h2 class="text-center">{{ prediction_text }}</h2>
+        {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
